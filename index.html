@@ -159,9 +159,9 @@ body.auth-locked{overflow:hidden;}
      <div class="btns" style="grid-template-columns:repeat(4,1fr)"><button class="btn borange" onclick="applyPercent()">🛣️ Розподілити дороги</button><button class="btn bblue" onclick="presetBoth(65,35,0)">65/35</button><button class="btn bblue" onclick="presetBoth(85,15,0)">85/15</button><button class="btn bgray" onclick="presetBoth(70,20,10)">70/20/10</button></div>
      <div class="mini" style="margin-top:8px">Приклад: загальний пробіг 682 км, з вантажем 30% = 205 км, без вантажу 70% = 477 км. Далі кожен блок окремо ділиться на трасу / місто / понижені. Сума кілометрів завжди зійдеться без дробів.</div>
    </div>
-   <div class="card"><div class="section green">🛣️ ЗАМІСЬКІ ДОРОГИ -15%</div><div class="row"><div class="field"><label>З вантажем, км</label><input id="hwyLoad" class="input" value="0"></div><div class="field"><label>Без вантажу, км</label><input id="hwyEmpty" class="input" value="443"></div></div></div>
-   <div class="card"><div class="section orange">🏙️ РУХ У МІСТІ +10%</div><div class="row"><div class="field"><label>З вантажем, км</label><input id="cityLoad" class="input" value="0"></div><div class="field"><label>Без вантажу, км</label><input id="cityEmpty" class="input" value="239"></div></div></div>
-   <div class="card"><div class="section red">⚙️ ПОНИЖЕНІ ПЕРЕДАЧІ +10%</div><div class="row"><div class="field"><label>З вантажем, км</label><input id="lowLoad" class="input" value="0"></div><div class="field"><label>Без вантажу, км</label><input id="lowEmpty" class="input" value="0"></div></div></div>
+   <div class="card"><div class="section green">🛣️ ЗАМІСЬКІ ДОРОГИ <span id="hwyRateTitle">-15%</span></div><div class="row3"><div class="field"><label>З вантажем, км</label><input id="hwyLoad" class="input" value="0"></div><div class="field"><label>Без вантажу, км</label><input id="hwyEmpty" class="input" value="443"></div><div class="field"><label>Надбавка / зниження, %</label><input id="hwyRate" class="input" type="number" step="1" value="-15"></div></div><div class="mini" style="margin-top:8px">Для зниження введи число зі знаком мінус, наприклад <b>-15</b>.</div></div>
+   <div class="card"><div class="section orange">🏙️ РУХ У МІСТІ <span id="cityRateTitle">+10%</span></div><div class="row3"><div class="field"><label>З вантажем, км</label><input id="cityLoad" class="input" value="0"></div><div class="field"><label>Без вантажу, км</label><input id="cityEmpty" class="input" value="239"></div><div class="field"><label>Надбавка / зниження, %</label><input id="cityRate" class="input" type="number" step="1" value="10"></div></div></div>
+   <div class="card"><div class="section red">⚙️ ПОНИЖЕНІ ПЕРЕДАЧІ <span id="lowRateTitle">+10%</span></div><div class="row3"><div class="field"><label>З вантажем, км</label><input id="lowLoad" class="input" value="0"></div><div class="field"><label>Без вантажу, км</label><input id="lowEmpty" class="input" value="0"></div><div class="field"><label>Надбавка / зниження, %</label><input id="lowRate" class="input" type="number" step="1" value="10"></div></div></div>
    <div class="card"><div class="section">🕐 Мотогодини / кондиціонер / AdBlue — правильний розпис</div>
      <div class="row"><div class="field"><label>Мотогодини</label><input id="hours" class="input" value="0"></div><div class="field"><label>Км за 1 мотогодину</label><input id="hourRate" class="input" value="25"></div></div>
      <div class="row" style="margin-top:12px"><div class="field"><label>Кондиціонер, %</label><input id="condRate" class="input" value="4"></div><div class="field"><label>AdBlue, %</label><input id="adblueRate" class="input" value="4"></div></div>
@@ -170,7 +170,7 @@ body.auth-locked{overflow:hidden;}
    </div>
   </div>
   <div class="middle">
-   <div class="card"><div class="section">⚙️ Пояснення</div><p><b>Формула з вантажем:</b><br>Базова норма + (тоннаж × норма на 1 т)</p><p><b>Коефіцієнти:</b></p><ul><li>Заміські дороги: ×0,85</li><li>Місто: ×1,10</li><li>Понижені передачі: ×1,10</li><li>Мотогодини: м/г × 25 км × базова норма /100</li><li>Кондиціонер: % від округленої витрати пального</li><li>AdBlue: % окремо від пального до списання</li><li>Округлення: 0,5 рахується як 1</li></ul></div>
+   <div class="card"><div class="section">⚙️ Пояснення</div><p><b>Формула з вантажем:</b><br>Базова норма + (тоннаж × норма на 1 т)</p><p><b>Коефіцієнти:</b></p><ul><li>Заміські дороги, місто та понижені передачі: відсоток задається самостійно у жовтому полі</li><li>Додатне число збільшує норму, від’ємне — зменшує</li><li>Мотогодини: м/г × 25 км × базова норма /100</li><li>Кондиціонер: % від округленої витрати пального</li><li>AdBlue: % окремо від пального до списання</li><li>Округлення: 0,5 рахується як 1</li></ul></div>
    <div class="card"><div class="section">📚 База автомобілів</div><div><span class="pill" id="countCars">0 авто</span><span class="pill">дані з файлу норм БМЗ</span></div><table class="table" id="topCars" style="margin-top:10px"></table></div>
    <div class="card"><div class="section">🧾 Дані для шляхового листа</div>
      <div class="field"><label>Водій</label><input id="driver" class="input" placeholder="ПІБ водія"></div>
@@ -254,14 +254,14 @@ function cleanVehicleNumber(x){return String(x||'').replace(/\s*[ЕE]2/gi,'').t
 function cleanVehicleDB(){VEHICLES=(VEHICLES||[]).map(v=>({...v,number:cleanVehicleNumber(v.number)}));}
 cleanVehicleDB();
 const ADMIN_PASSWORD = 'ZAMOK2026';
-const inputIds=['base','ton','tonRate','hwyLoad','hwyEmpty','cityLoad','cityEmpty','lowLoad','lowEmpty','hours','hourRate','condRate','adblueRate','driver','route','orderNo','noteCalc','cond','adblue','date','num','totalKmAll','pctLoadShare','pctEmptyShare','totalKmLoad','totalKmEmpty','pctHwyLoad','pctCityLoad','pctLowLoad','pctHwyEmpty','pctCityEmpty','pctLowEmpty'];
+const inputIds=['base','ton','tonRate','hwyLoad','hwyEmpty','hwyRate','cityLoad','cityEmpty','cityRate','lowLoad','lowEmpty','lowRate','hours','hourRate','condRate','adblueRate','driver','route','orderNo','noteCalc','cond','adblue','date','num','totalKmAll','pctLoadShare','pctEmptyShare','totalKmLoad','totalKmEmpty','pctHwyLoad','pctCityLoad','pctLowLoad','pctHwyEmpty','pctCityEmpty','pctLowEmpty'];
 function n(id){let v=document.getElementById(id).value||'0';v=String(v).replace(',','.').replace(/[^0-9.\-]/g,'');return parseFloat(v)||0}
 function setVal(id,val){document.getElementById(id).value=String(val).replace('.',',')}
 function f(x,d=1){return Number(x||0).toLocaleString('uk-UA',{minimumFractionDigits:d,maximumFractionDigits:d})}
 function r0(x){return Math.round(Number(x)||0)}
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 function vehProp(v,key,def){return (v && v[key]!==undefined && v[key]!=='' && v[key]!==null)?v[key]:def}
-function getFormSnapshot(){const ids=['date','num','vehicleSelect','base','fuelType','ton','tonRate','totalKmAll','pctLoadShare','pctEmptyShare','totalKmLoad','totalKmEmpty','pctHwyLoad','pctCityLoad','pctLowLoad','pctHwyEmpty','pctCityEmpty','pctLowEmpty','hwyLoad','hwyEmpty','cityLoad','cityEmpty','lowLoad','lowEmpty','hours','hourRate','condRate','adblueRate','driver','route','orderNo','noteCalc','driver','route','orderNo','noteCalc'];let data={};ids.forEach(id=>{const el=document.getElementById(id); if(el)data[id]=el.value}); data.cond=document.getElementById('cond').checked; data.adblue=document.getElementById('adblue').checked; return data}
+function getFormSnapshot(){const ids=['date','num','vehicleSelect','base','fuelType','ton','tonRate','totalKmAll','pctLoadShare','pctEmptyShare','totalKmLoad','totalKmEmpty','pctHwyLoad','pctCityLoad','pctLowLoad','pctHwyEmpty','pctCityEmpty','pctLowEmpty','hwyLoad','hwyEmpty','hwyRate','cityLoad','cityEmpty','cityRate','lowLoad','lowEmpty','lowRate','hours','hourRate','condRate','adblueRate','driver','route','orderNo','noteCalc'];let data={};ids.forEach(id=>{const el=document.getElementById(id); if(el)data[id]=el.value}); data.cond=document.getElementById('cond').checked; data.adblue=document.getElementById('adblue').checked; return data}
 function loadFormSnapshot(data){Object.entries(data||{}).forEach(([id,val])=>{const el=document.getElementById(id); if(el && id!=='cond' && id!=='adblue') el.value=val}); if('cond' in data)document.getElementById('cond').checked=!!data.cond; if('adblue' in data)document.getElementById('adblue').checked=!!data.adblue; vehicleChanged(); applyPercent(); calc();}
 function readyText(){const v=getSelectedVehicle(); const car=v?`${v.marka} ${v.number?('№'+v.number):''}`:'вручну';return `Розрахунок ПММ для шляхового листа
 Дата: ${document.getElementById('date').value}
@@ -423,13 +423,19 @@ function roadKmToPercent(group){
 function calc(){
  const base=n('base'),ton=n('ton'),tr=n('tonRate'),hours=n('hours'),kmPerHour=n('hourRate')||25,condRate=n('condRate')||4,adblueRate=n('adblueRate')||4;
  const hL=n('hwyLoad'),hE=n('hwyEmpty'),cL=n('cityLoad'),cE=n('cityEmpty'),lL=n('lowLoad'),lE=n('lowEmpty');
+ const hwyRate=n('hwyRate'),cityRate=n('cityRate'),lowRate=n('lowRate');
+ const hwyFactor=1+hwyRate/100,cityFactor=1+cityRate/100,lowFactor=1+lowRate/100;
+ const pctLabel=value=>(value>=0?'+':'')+f(value,0)+'%';
+ document.getElementById('hwyRateTitle').textContent=pctLabel(hwyRate);
+ document.getElementById('cityRateTitle').textContent=pctLabel(cityRate);
+ document.getElementById('lowRateTitle').textContent=pctLabel(lowRate);
  const add=ton*tr, rateLoad=base+add;
- const a=hL*rateLoad/100*0.85;
- const b=cL*rateLoad/100*1.10;
- const cc=lL*rateLoad/100*1.10;
- const d=hE*base/100*0.85;
- const e=cE*base/100*1.10;
- const ff=lE*base/100*1.10;
+ const a=hL*rateLoad/100*hwyFactor;
+ const b=cL*rateLoad/100*cityFactor;
+ const cc=lL*rateLoad/100*lowFactor;
+ const d=hE*base/100*hwyFactor;
+ const e=cE*base/100*cityFactor;
+ const ff=lE*base/100*lowFactor;
  const hourFuelRaw=hours*kmPerHour*base/100;
  const load=a+b+cc, empty=d+e+ff;
  const mainRaw=load+empty+hourFuelRaw;
@@ -457,14 +463,14 @@ function calc(){
  document.getElementById('detail').innerHTML=`<h2>Детальний розрахунок для шляхового листа</h2>
  <div class="warn">${carLine}<b>Водій:</b> ${esc(document.getElementById('driver')?.value||'—')}<br><b>Маршрут:</b> ${esc(document.getElementById('route')?.value||'—')}<br><b>Бойове розпорядження №:</b> ${esc(document.getElementById('orderNo')?.value||'—')}<br><b>Загальний пробіг:</b> ${f(total,0)} км<br><b>Заявлений загальний пробіг:</b> ${f(n('totalKmAll'),0)} км<br><b>Пробіг з вантажем:</b> ${f(kmLoad,0)} км, <b>без вантажу:</b> ${f(kmEmpty,0)} км<br><b>Базова витрата:</b> ${f(base)} л/100 км${tonInfo}<br><b>Правило округлення:</b> 0,5 л і більше округлюється до більшого цілого.</div>
  <h3>З вантажем</h3>
- <div class="line"><b>Заміські дороги (-15%):</b><br>${f(hL,0)} км × ${loadFormulaBase} /100 -15% = <b>${f(a)} л</b></div>
- <div class="line"><b>Рух у місті (+10%):</b><br>${f(cL,0)} км × ${loadFormulaBase} /100 +10% = <b>${f(b)} л</b></div>
- <div class="line"><b>Понижені передачі (+10%):</b><br>${f(lL,0)} км × ${loadFormulaBase} /100 +10% = <b>${f(cc)} л</b></div>
+ <div class="line"><b>Заміські дороги (${pctLabel(hwyRate)}):</b><br>${f(hL,0)} км × ${loadFormulaBase} /100 × ${f(hwyFactor,2)} = <b>${f(a)} л</b></div>
+ <div class="line"><b>Рух у місті (${pctLabel(cityRate)}):</b><br>${f(cL,0)} км × ${loadFormulaBase} /100 × ${f(cityFactor,2)} = <b>${f(b)} л</b></div>
+ <div class="line"><b>Понижені передачі (${pctLabel(lowRate)}):</b><br>${f(lL,0)} км × ${loadFormulaBase} /100 × ${f(lowFactor,2)} = <b>${f(cc)} л</b></div>
  <div class="line"><b>Всього з вантажем:</b> ${f(a)} + ${f(b)} + ${f(cc)} = <b>${f(load)} л</b></div>
  <h3>Без вантажу</h3>
- <div class="line"><b>Заміські дороги (-15%):</b><br>${f(hE,0)} км × ${f(base)} /100 -15% = <b>${f(d)} л</b></div>
- <div class="line"><b>Рух у місті (+10%):</b><br>${f(cE,0)} км × ${f(base)} /100 +10% = <b>${f(e)} л</b></div>
- <div class="line"><b>Понижені передачі (+10%):</b><br>${f(lE,0)} км × ${f(base)} /100 +10% = <b>${f(ff)} л</b></div>
+ <div class="line"><b>Заміські дороги (${pctLabel(hwyRate)}):</b><br>${f(hE,0)} км × ${f(base)} /100 × ${f(hwyFactor,2)} = <b>${f(d)} л</b></div>
+ <div class="line"><b>Рух у місті (${pctLabel(cityRate)}):</b><br>${f(cE,0)} км × ${f(base)} /100 × ${f(cityFactor,2)} = <b>${f(e)} л</b></div>
+ <div class="line"><b>Понижені передачі (${pctLabel(lowRate)}):</b><br>${f(lE,0)} км × ${f(base)} /100 × ${f(lowFactor,2)} = <b>${f(ff)} л</b></div>
  <div class="line"><b>Всього без вантажу:</b> ${f(d)} + ${f(e)} + ${f(ff)} = <b>${f(empty)} л</b></div>
  <h3>Мотогодини</h3>
  <div class="line"><b>Розрахунок мотогодин:</b><br>${f(hours,1)} м/г × ${f(kmPerHour,0)} км × ${f(base)} /100 = <b>${f(hourFuelRaw)} л</b></div>
