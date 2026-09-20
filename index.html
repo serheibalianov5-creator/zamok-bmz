@@ -463,14 +463,14 @@ function calc(){
  document.getElementById('detail').innerHTML=`<h2>Детальний розрахунок для шляхового листа</h2>
  <div class="warn">${carLine}<b>Водій:</b> ${esc(document.getElementById('driver')?.value||'—')}<br><b>Маршрут:</b> ${esc(document.getElementById('route')?.value||'—')}<br><b>Бойове розпорядження №:</b> ${esc(document.getElementById('orderNo')?.value||'—')}<br><b>Загальний пробіг:</b> ${f(total,0)} км<br><b>Заявлений загальний пробіг:</b> ${f(n('totalKmAll'),0)} км<br><b>Пробіг з вантажем:</b> ${f(kmLoad,0)} км, <b>без вантажу:</b> ${f(kmEmpty,0)} км<br><b>Базова витрата:</b> ${f(base)} л/100 км${tonInfo}<br><b>Правило округлення:</b> 0,5 л і більше округлюється до більшого цілого.</div>
  <h3>З вантажем</h3>
- <div class="line"><b>Заміські дороги (${pctLabel(hwyRate)}):</b><br>${f(hL,0)} км × ${loadFormulaBase} /100 × ${f(hwyFactor,2)} = <b>${f(a)} л</b></div>
- <div class="line"><b>Рух у місті (${pctLabel(cityRate)}):</b><br>${f(cL,0)} км × ${loadFormulaBase} /100 × ${f(cityFactor,2)} = <b>${f(b)} л</b></div>
- <div class="line"><b>Понижені передачі (${pctLabel(lowRate)}):</b><br>${f(lL,0)} км × ${loadFormulaBase} /100 × ${f(lowFactor,2)} = <b>${f(cc)} л</b></div>
+ <div class="line"><b>Заміські дороги (${pctLabel(hwyRate)}):</b><br>${f(hL,0)} км × ${loadFormulaBase} /100 ${hwyRate < 0 ? "−" : "+"} ${String(Math.abs(hwyRate)).replace(".",",")}% = <b>${f(a)} л</b></div>
+ <div class="line"><b>Рух у місті (${pctLabel(cityRate)}):</b><br>${f(cL,0)} км × ${loadFormulaBase} /100 ${cityRate < 0 ? "−" : "+"} ${String(Math.abs(cityRate)).replace(".",",")}% = <b>${f(b)} л</b></div>
+ <div class="line"><b>Понижені передачі (${pctLabel(lowRate)}):</b><br>${f(lL,0)} км × ${loadFormulaBase} /100 ${lowRate < 0 ? "−" : "+"} ${String(Math.abs(lowRate)).replace(".",",")}% = <b>${f(cc)} л</b></div>
  <div class="line"><b>Всього з вантажем:</b> ${f(a)} + ${f(b)} + ${f(cc)} = <b>${f(load)} л</b></div>
  <h3>Без вантажу</h3>
- <div class="line"><b>Заміські дороги (${pctLabel(hwyRate)}):</b><br>${f(hE,0)} км × ${f(base)} /100 × ${f(hwyFactor,2)} = <b>${f(d)} л</b></div>
- <div class="line"><b>Рух у місті (${pctLabel(cityRate)}):</b><br>${f(cE,0)} км × ${f(base)} /100 × ${f(cityFactor,2)} = <b>${f(e)} л</b></div>
- <div class="line"><b>Понижені передачі (${pctLabel(lowRate)}):</b><br>${f(lE,0)} км × ${f(base)} /100 × ${f(lowFactor,2)} = <b>${f(ff)} л</b></div>
+ <div class="line"><b>Заміські дороги (${pctLabel(hwyRate)}):</b><br>${f(hE,0)} км × ${f(base)} /100 ${hwyRate < 0 ? "−" : "+"} ${String(Math.abs(hwyRate)).replace(".",",")}% = <b>${f(d)} л</b></div>
+ <div class="line"><b>Рух у місті (${pctLabel(cityRate)}):</b><br>${f(cE,0)} км × ${f(base)} /100 ${cityRate < 0 ? "−" : "+"} ${String(Math.abs(cityRate)).replace(".",",")}% = <b>${f(e)} л</b></div>
+ <div class="line"><b>Понижені передачі (${pctLabel(lowRate)}):</b><br>${f(lE,0)} км × ${f(base)} /100 ${lowRate < 0 ? "−" : "+"} ${String(Math.abs(lowRate)).replace(".",",")}% = <b>${f(ff)} л</b></div>
  <div class="line"><b>Всього без вантажу:</b> ${f(d)} + ${f(e)} + ${f(ff)} = <b>${f(empty)} л</b></div>
  <h3>Мотогодини</h3>
  <div class="line"><b>Розрахунок мотогодин:</b><br>${f(hours,1)} м/г × ${f(kmPerHour,0)} км × ${f(base)} /100 = <b>${f(hourFuelRaw)} л</b></div>
